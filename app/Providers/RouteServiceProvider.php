@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Routing\Middleware\SubstituteBindings;
+use App\Exceptions\Api\NotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +23,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Route::middleware('api')
-            ->prefix('api')
-            ->group(base_path('routes/api.php'));
+        ->prefix('api')
+        ->missing(function (Request $request) {
+            throw new NotFoundException();
+        })
+        ->group(base_path('routes/api.php'));
     }
 }

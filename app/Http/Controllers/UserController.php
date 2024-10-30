@@ -6,7 +6,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -15,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        return response()->success(UserResource::collection(User::all()));
     }
 
     /**
@@ -24,7 +23,7 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::create($request->validated());
-        return new UserResource($user);
+        return response()->success(new UserResource($user), 201, 'Created');
     }
 
     /**
@@ -32,7 +31,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        return response()->success(new UserResource($user));
     }
 
     /**
@@ -41,7 +40,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $user->update($request->validated());
-        return new UserResource($user);
+        return response()->success(new UserResource($user), message: 'Updated');
     }
 
     /**
@@ -50,6 +49,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->noContent(200);
+        return response()->success(message: 'Deleted');
     }
 }
