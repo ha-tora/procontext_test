@@ -20,12 +20,13 @@ RUN apt-get update && apt-get install -y \
 COPY . /var/www/procontext-test/
 WORKDIR /var/www/procontext-test/
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install
-
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN chgrp -R www-data storage bootstrap/cache
 RUN chmod -R 777 storage bootstrap/cache
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 EXPOSE 9000
-CMD [ "php-fpm" ]
+CMD composer install ; \
+    php artisan migrate ; \
+    php-fpm
