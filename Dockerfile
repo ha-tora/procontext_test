@@ -29,4 +29,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 EXPOSE 9000
 CMD composer install ; \
     php artisan migrate ; \
+    php artisan key:generate ; \
+    php artisan config:cahce ; \
     php-fpm

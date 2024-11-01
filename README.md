@@ -1,10 +1,16 @@
 ## Installing
 
 Copy .env.exapmple file to .env. Edit .env file as you need.
-```cp .env.example .env```
+```
+cp .env.example .env
+```
 
 To start containers run command:
-```docker compose build && docker compose up -d```
+```
+sudo docker compose build && sudo docker compose up -d
+```
 
 To stop containers run:
-```docker compose down -v```
+```
+sudo docker compose down -v
+```
